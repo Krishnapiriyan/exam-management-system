@@ -1,0 +1,41 @@
+# Dependency Directories
+node_modules/
+jspm_packages/
+.npm/
+
+# Environment Variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+*.env
+
+# Build/Dist folders
+dist/
+build/
+out/
+.next/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+*.log
+
+# IDE / Editor Settings
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+
+# Prisma
+# Keep migrations but ignore SQLite DBs if any
+backend/prisma/*.db
+backend/prisma/*.db-journal
+
+# Compiled/Generated Files
+*.tsbuildinfo
+.antigravity/
+.gemini/

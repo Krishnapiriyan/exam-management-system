@@ -1,0 +1,124 @@
+// This is your Prisma schema file
+// Learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Admin {
+  id        Int      @id @default(autoincrement())
+  name      String
+  email     String   @unique
+  password  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Batch {
+  id           Int       @id @default(autoincrement())
+  year         Int       @unique
+  description  String?
+  coverPhotoUrl String?
+  createdAt    DateTime  @default(now())
+  students     Student[]
+  exams        Exam[]
+}
+
+model Subject {
+  id       Int              @id @default(autoincrement())
+  name     String           @unique
+  students StudentSubject[]
+  exams    Exam[]
+}
+
+model Student {
+  id          Int              @id @default(autoincrement())
+  name        String
+  indexNumber String           @unique
+  email       String
+  batchId     Int
+  batch       Batch            @relation(fields: [batchId], references: [id], onDelete: Cascade)
+  subjects    StudentSubject[]
+  results     Result[]
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+}
+
+model StudentSubject {
+  studentId Int
+  subjectId Int
+  student   Student @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  subject   Subject @relation(fields: [subjectId], references: [id], onDelete: Cascade)
+
+  @@id([studentId, subjectId])
+}
+
+model Exam {
+  id               Int        @id @default(autoincrement())
+  title            String
+  description      String?
+  batchId          Int
+  subjectId        Int
+  examDate         DateTime
+  durationHours    Float
+  totalMarks       Int        @default(100)
+  resultReleasedAt DateTime?
+  batch            Batch      @relation(fields: [batchId], references: [id], onDelete: Cascade)
+  subject          Subject    @relation(fields: [subjectId], references: [id])
+  results          Result[]
+  pastPapers       PastPaper[]
+  createdAt        DateTime   @default(now())
+  updatedAt        DateTime   @updatedAt
+}
+
+model Result {
+  id            Int      @id @default(autoincrement())
+  examId        Int
+  studentId     Int
+  marksObtained Float?
+  exam          Exam     @relation(fields: [examId], references: [id], onDelete: Cascade)
+  student       Student  @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@unique([examId, studentId])
+}
+
+model PastPaper {
+  id                 Int      @id @default(autoincrement())
+  examId             Int
+  paperType          String   // "question", "scheme", "both"
+  questionPaperUrl   String?
+  markingSchemeUrl   String?
+  marksSheetUrl      String?
+  description        String?
+  exam               Exam     @relation(fields: [examId], references: [id], onDelete: Cascade)
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+}
+
+model SiteSettings {
+  id                  Int              @id @default(autoincrement())
+  homeTitle           String           @default("Welcome to EMS")
+  homeDescription     String           @default("Exam Management System")
+  backgroundVideoUrl  String?
+  updatedAt           DateTime         @updatedAt
+  contentSections     ContentSection[]
+}
+
+model ContentSection {
+  id             Int          @id @default(autoincrement())
+  siteSettingsId Int
+  heading        String
+  description    String?
+  mediaUrl       String?
+  sortOrder      Int          @default(0)
+  siteSettings   SiteSettings @relation(fields: [siteSettingsId], references: [id], onDelete: Cascade)
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+}
