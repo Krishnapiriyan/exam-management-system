@@ -7,3 +7,7 @@ app.listen(PORT, () => {
     console.log(`\n🚀 EMS Backend running on http://localhost:${PORT}`);
     console.log(`📊 Health check: http://localhost:${PORT}/api/health`);
 });
+
+app.get("/healthz", (req, res) => {
+    res.status(200).json({ status: "OK" });
+});
