@@ -72,9 +72,16 @@ export default function Dashboard() {
     return (
         <div className="p-6 space-y-8">
             {/* Header */}
-            <div>
-                <h1 className="text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-emerald-400 tracking-tight drop-shadow-sm">Dashboard</h1>
-                <p className="text-slate-300 text-sm font-medium mt-1">Welcome back! Here's an overview of your system.</p>
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div>
+                    <h1 className="text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-emerald-400 tracking-tight drop-shadow-sm">Dashboard</h1>
+                    <p className="text-slate-300 text-sm font-medium mt-1">Welcome back! Here's an overview of your system.</p>
+                </div>
+                <div className="flex items-center gap-2 overflow-x-auto pb-2 sm:pb-0 scrollbar-none">
+                    <button onClick={() => navigate('/students')} className="px-4 py-2 bg-blue-600/20 text-blue-400 border border-blue-500/30 rounded-lg text-xs font-bold whitespace-nowrap hover:bg-blue-600/30 transition-colors">Register Student</button>
+                    <button onClick={() => navigate('/exams')} className="px-4 py-2 bg-emerald-600/20 text-emerald-400 border border-emerald-500/30 rounded-lg text-xs font-bold whitespace-nowrap hover:bg-emerald-600/30 transition-colors">Add Exam</button>
+                    <button onClick={() => navigate('/site-settings')} className="px-4 py-2 bg-slate-800 text-slate-300 border border-white/10 rounded-lg text-xs font-bold whitespace-nowrap hover:bg-slate-700 transition-colors">Settings</button>
+                </div>
             </div>
 
             {/* Global Stats */}
