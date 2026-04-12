@@ -21,9 +21,8 @@ export default function Home() {
     return (
         <div>
             {/* ── Hero ── */}
-            <section className={`relative min-h-[70vh] flex items-center justify-center overflow-hidden ${
-                settings?.backgroundVideoUrl ? 'bg-black' : 'bg-transparent'
-            }`}>
+            <section className={`relative min-h-[70vh] flex items-center justify-center overflow-hidden ${settings?.backgroundVideoUrl ? 'bg-black' : 'bg-transparent'
+                }`}>
                 {settings?.backgroundVideoUrl && (
                     <>
                         <video autoPlay muted loop playsInline
@@ -37,7 +36,7 @@ export default function Home() {
                 <div className="relative z-10 text-center px-6 max-w-3xl mx-auto">
                     <div className="inline-flex items-center gap-2 bg-white/5 border border-white/10 shadow-lg text-white text-sm px-4 py-2 rounded-full mb-6 backdrop-blur-md">
                         <span className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse shadow-[0_0_8px_rgba(52,211,153,0.8)]" />
-                        Student Portal
+                        CHC Students Page
                     </div>
 
                     {loading ? (

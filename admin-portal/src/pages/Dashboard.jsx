@@ -78,15 +78,15 @@ export default function Dashboard() {
             </div>
 
             {/* Global Stats */}
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                 <StatCard label="Total Students" value={globalStats?.totalStudents} icon={Users} color="bg-blue-600" />
                 <StatCard label="Administrators" value={globalStats?.totalAdmins} icon={Shield} color="bg-slate-800" />
                 <StatCard label="Math Students" value={globalStats?.mathStudents} icon={BookOpen} color="bg-emerald-600" />
                 <StatCard label="Biology Students" value={globalStats?.bioStudents} icon={TrendingUp} color="bg-orange-600" />
             </div>
 
-            {/* Batch Selector */}
-            <div className="glass-panel p-6 rounded-2xl hover:border-white/20 transition-all duration-300">
+            {/* Batch Overview */}
+            <div className="glass-panel p-4 sm:p-6 rounded-2xl hover:border-white/20 transition-all duration-300">
                 <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-6 gap-4">
                     <h2 className="text-lg font-bold text-white tracking-wide">Batch Overview</h2>
                     <select
@@ -123,8 +123,8 @@ export default function Dashboard() {
                         </div>
 
                         {/* Subject-wise stats */}
-                        <div className="overflow-x-auto border border-white/10 rounded-xl bg-slate-900/40">
-                            <table className="w-full text-sm">
+                        <div className="overflow-x-auto -mx-4 sm:mx-0 border border-white/10 rounded-xl bg-slate-900/40">
+                            <table className="w-full text-sm min-w-[500px]">
                                 <thead>
                                     <tr className="bg-white/5 border-b border-white/10 text-slate-300 text-left font-bold">
                                         <th className="px-5 py-4">Subject</th>
@@ -135,7 +135,7 @@ export default function Dashboard() {
                                 </thead>
                                 <tbody>
                                     {batchStats.subjectStats.map((s, idx) => (
-                                        <tr key={s.subject} className={`hover:bg-white/5 transition-colors ${idx !== batchStats.subjectStats.length -1 ? "border-b border-white/5" : ""}`}>
+                                        <tr key={s.subject} className={`hover:bg-white/5 transition-colors ${idx !== batchStats.subjectStats.length - 1 ? "border-b border-white/5" : ""}`}>
                                             <td className="px-5 py-4 font-bold text-white tracking-wide">{s.subject}</td>
                                             <td className="px-5 py-4 text-slate-300 font-medium">{s.studentCount}</td>
                                             <td className="px-5 py-4 text-slate-300 font-medium">{s.examCount}</td>
@@ -159,19 +159,21 @@ export default function Dashboard() {
             {Object.keys(charts).length > 0 && (
                 <div>
                     <h2 className="text-lg font-semibold text-white mb-4">Exam Performance Distributions</h2>
-                    <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5">
                         {Object.entries(charts).map(([subjectName, data]) => (
                             <div key={subjectName} className="glass-panel p-5 rounded-2xl hover:border-white/20 transition-all duration-300">
                                 <h3 className="text-sm font-bold text-slate-300 mb-3 text-center tracking-wide">{subjectName}</h3>
-                                <ResponsiveContainer width="100%" height={220}>
-                                    <PieChart>
-                                        <Pie data={data} dataKey="count" nameKey="range" cx="50%" cy="50%" outerRadius={80} label>
-                                            {data.map((_, i) => <Cell key={i} fill={COLORS[i % COLORS.length]} />)}
-                                        </Pie>
-                                        <Tooltip />
-                                        <Legend />
-                                    </PieChart>
-                                </ResponsiveContainer>
+                                <div className="h-[220px] w-full">
+                                    <ResponsiveContainer width="100%" height="100%">
+                                        <PieChart>
+                                            <Pie data={data} dataKey="count" nameKey="range" cx="50%" cy="50%" outerRadius={60} label={false}>
+                                                {data.map((_, i) => <Cell key={i} fill={COLORS[i % COLORS.length]} />)}
+                                            </Pie>
+                                            <Tooltip contentStyle={{ backgroundColor: '#0f172a', borderColor: '#334155', borderRadius: '8px' }} />
+                                            <Legend verticalAlign="bottom" height={36} />
+                                        </PieChart>
+                                    </ResponsiveContainer>
+                                </div>
                             </div>
                         ))}
                     </div>
@@ -180,7 +182,7 @@ export default function Dashboard() {
 
             {/* Exam Status Summary */}
             {batchStats && (
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6">
                     <div className="glass-panel p-6 flex items-center gap-5 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_8px_30px_rgba(37,99,235,0.2)] hover:border-white/20 rounded-2xl">
                         <div className="w-14 h-14 rounded-xl flex items-center justify-center bg-blue-500/20 border border-blue-500/30 shadow-inner">
                             <BookOpen className="w-7 h-7 text-blue-400" />
